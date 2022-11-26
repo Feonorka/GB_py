@@ -6,4 +6,4 @@
 
 a = float(input())
 val = a * 10
-print(val // 10)
+print(val / 10)
