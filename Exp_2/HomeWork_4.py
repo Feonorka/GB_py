@@ -12,12 +12,11 @@ while x < 10 and x > 0:
 while num != 0:
     num = num // 10
     count += 1
-    #print(x)
 print(f'Длина числа составляет {count} знака')
-
-for i in range(count, 0, -1):
-    low = round(x * (10 ** -i))
-    if low <= round(x * (10 ** -(i - 1)))
-    temp_low = low % 10
-    print(f'low = {low}')
-    print(temp_low)
+for i in range(count, 1, ):
+    low = x // 10 ** (count - i)
+    ost_low = x % 10 ** (count - i)
+    next = ost_low // 10 ** (count - (i + 1))
+    print(low)
+    print(ost_low)
+    print(next)
