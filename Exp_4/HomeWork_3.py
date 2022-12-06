@@ -8,7 +8,7 @@ def selection_sort(lst):
                 smallest = j
         lst[i], lst[smallest] = lst[smallest], lst[i]
  
-spisok = [random.randint(-5, 5) for x in range(random.randint(1, 10))]
+spisok = [random.randint(-10, 10) for x in range(30)]
 
 selection_sort(spisok)
 print('Отсортированный список: ', end='')
