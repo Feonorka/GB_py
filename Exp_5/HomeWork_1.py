@@ -1,16 +1,8 @@
 #Сделать игру морской бой
 import random
 import collections
-ships = {'Линкор': [1, 4, []], 'Крейсер': [2, 3, []], 'Эсминец': [3, 2, []], 'Катер': [4, 1, []]}
 
-alf = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
-nums = [x for x in range(1,11)]
-empty_place = ' .'
-fire_place = '#'
-miss_place = '*'
-ship_on_field = 'Ж'
-
-def field():                                             # Вывод поля боя с координатами в терминал
+def field(queue_role):                                             # Вывод поля боя с координатами в терминал
     for k in range(11):
         if k == 0: print(' '.center(1),"", end=" ")
         else:
@@ -45,14 +37,20 @@ def fire(queue_status):                     # На входе принимает
         fire_coord = random.choice(alf) + str(random.choice(nums))
         return fire_coord
 
-def ship_place():
-    count_ship = 0
-    while count_ship < len(ships):
-        for deck in ships:
-            temp_list = ships.get(deck)
-            ships_deck = {deck:{'Количество' : temp_list[0],'Жизни' : temp_list[1], 'Координаты': temp_list[2]}}
-            print(ships_deck)
-            count_ship += 1
+def ship_place(ships_types, alf, nums):
+    battle_map = {}
+    for types in ships_types:
+        temp_list_of_key = types
+        temp_list_of_val = ships_types.get(types)
+        num_deck = temp_list_of_val[1]                                # Определяет количество палуб у корабля из его характеристик
+        col_ships = temp_list_of_val[0]                               # Определяет количество кораблей определенного типа на поле
+        temp_list_of_val[2] = [[str(random.choice(alf)) + str(random.randint(1, len(nums))) for y in range(col_ships)] for x in range(num_deck)]
+       
+        battle_map[types] = temp_list_of_val[2]
+        
+        #print(f'Корабль типа: {temp_list_of_key} имеет {num_deck} палубы, всего в игре таких кораблей: {col_ships}')
+        #print(battle_map)
+        
     return battle_map
 
 def miss_or_not(fire_coord, battle_map):  # На вход принимает координату куда производится выстрел и словарь с координатами кораблей
@@ -61,12 +59,10 @@ def miss_or_not(fire_coord, battle_map):  # На вход принимает к�
     else:
         return miss_place
 
-def queue(fire_coord, battle_map):  # Возвращает значения player\enemy в зависимости от того чья сейчас очередь
-    player_go = {}                  # В словарях записываются ходы
-    enemy_go = {}                   # На входе получает координату из функции fire()
-    queue_list = ['player', 'enemy']
-    num_go_p = 1
-    num_go_e = 1
+def queue(fire_coord, battle_map, player_go, enemy_go):  # Возвращает значения player\enemy в зависимости от того чья сейчас очередь
+    queue_list = ['player', 'enemy']                     # В словарях записываются ходы
+    num_go_p = 1                                         # На входе получает координату из функции fire() и данные о сделанных ходах из
+    num_go_e = 1                                         # отдельных словарей
 
     if len(player_go) == 0 and len(enemy_go) == 0:  # Условие для определения первого хода (по умолчанию первым ходит игрок)
         queue_status = queue_list[0]                # При первом ходе другие условия не проверяются
@@ -94,23 +90,24 @@ def queue(fire_coord, battle_map):  # Возвращает значения play
                
     return queue_status
 
-print()
+ships = {'Линкор': [1, 4, []], 'Крейсер': [2, 3, []], 'Эсминец': [3, 2, []], 'Катер': [4, 1, []]}   # В словаре в качестве значений указаны значения
+alf = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']                                            # количество кораблей определенного типа
+player_go = {}
+enemy_go = {}
+nums = [x for x in range(1,11)]
+empty_place = ' .'
+fire_place = '#'
+miss_place = '*'
+ship_on_field = 'Ж'
+
 print('Игра начинается...')
-print()
-ship_place()
 print('Корабли противника размещены...')
-print()
-print('Разместите Ваши корабли...')
-print()
-ship_place()
-
-battle_map = ship_place()
-
-field()
-print()
-
-scuter_fire = fire('player')
-miss_or_not(scuter_fire, battle_map)
-queue(scuter_fire, battle_map)
-
-print(f'Правила:\nУ каждого игрока в начале игры {len(ships)} вида кораблей.\n')
+enemy_map =  ship_place(ships, alf, nums)
+print('Ваши корабли тоже...')
+player_map =  ship_place(ships, alf, nums)
+while count_go != 100:
+    queue_role = queue()
+    field(queue_role)
+    print(f'Сейчас ходит {queue()}')
+    fire('player')
+    count_go =  len(ships) + 
